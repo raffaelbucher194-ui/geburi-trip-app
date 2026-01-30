@@ -1,6 +1,9 @@
 /**
  * DESIGN: Industrial Athlete - Trip Data
  * All events for the birthday trip with timestamps and details
+ * 
+ * SURPRISE MODE: Events are revealed one at a time based on their start time
+ * Lugano/Tessin destination is hidden until arrival (Wed 04.02. 14:00)
  */
 
 export interface TripEvent {
@@ -20,6 +23,12 @@ export interface TripEvent {
     price?: string;
   };
   image?: string;
+  // Surprise mode fields
+  isSecret?: boolean; // If true, location details are hidden until revealed
+  secretTitle?: string; // Alternative title shown before reveal
+  secretSubtitle?: string; // Alternative subtitle shown before reveal
+  revealAt?: Date; // When to reveal the secret (defaults to event start time)
+  coordinates?: { lat: number; lng: number }; // For map
 }
 
 export interface TripDay {
@@ -31,6 +40,19 @@ export interface TripDay {
 
 // Birthday date for countdown
 export const BIRTHDAY_DATE = new Date('2026-02-04T00:00:00');
+
+// Secret reveal time for Lugano/Tessin (when they arrive)
+export const LUGANO_REVEAL_TIME = new Date('2026-02-04T14:00:00');
+
+// Map coordinates
+export const LOCATIONS = {
+  solothurn: { lat: 47.2088, lng: 7.5323, name: 'Solothurn' },
+  zuchwil: { lat: 47.2067, lng: 7.5647, name: 'Zuchwil' },
+  bern: { lat: 46.9480, lng: 7.4474, name: 'Bern' },
+  cademario: { lat: 46.0489, lng: 8.9183, name: 'Cademario' },
+  lugano: { lat: 46.0037, lng: 8.9511, name: 'Lugano' },
+  modena: { lat: 44.6471, lng: 10.9252, name: 'Modena' },
+};
 
 // All trip events organized by day
 export const tripDays: TripDay[] = [
@@ -45,6 +67,7 @@ export const tripDays: TripDay[] = [
         subtitle: 'Mit Bellabarbas',
         type: 'travel',
         status: 'confirmed',
+        coordinates: LOCATIONS.solothurn,
       },
       {
         id: 'fri-2',
@@ -54,7 +77,7 @@ export const tripDays: TripDay[] = [
         type: 'food',
         status: 'confirmed',
         location: 'Nooch Bern',
-        image: '/images/lugano-lake.jpg',
+        coordinates: LOCATIONS.bern,
       },
     ],
   },
@@ -70,6 +93,7 @@ export const tripDays: TripDay[] = [
         type: 'food',
         status: 'confirmed',
         location: 'Nooch Bern',
+        coordinates: LOCATIONS.bern,
       },
     ],
   },
@@ -92,6 +116,7 @@ export const tripDays: TripDay[] = [
           notes: 'Noch zu organisieren!',
         },
         image: '/images/hero-crossfit.jpg',
+        coordinates: LOCATIONS.zuchwil,
       },
       {
         id: 'sun-2',
@@ -107,6 +132,7 @@ export const tripDays: TripDay[] = [
           website: 'https://aarebar.com/reservation/',
           notes: 'Reservation nötig!',
         },
+        coordinates: LOCATIONS.solothurn,
       },
     ],
   },
@@ -120,6 +146,7 @@ export const tripDays: TripDay[] = [
         title: 'Normaler Arbeitstag',
         type: 'work',
         status: 'confirmed',
+        coordinates: LOCATIONS.solothurn,
       },
     ],
   },
@@ -133,6 +160,7 @@ export const tripDays: TripDay[] = [
         title: 'Arbeit bis ca. 16:00',
         type: 'work',
         status: 'confirmed',
+        coordinates: LOCATIONS.solothurn,
       },
       {
         id: 'tue-2',
@@ -141,6 +169,7 @@ export const tripDays: TripDay[] = [
         subtitle: 'Für den Geburtstag!',
         type: 'free',
         status: 'confirmed',
+        coordinates: LOCATIONS.solothurn,
       },
     ],
   },
@@ -157,6 +186,7 @@ export const tripDays: TripDay[] = [
         description: 'Was auch immer du willst!',
         type: 'free',
         status: 'flexible',
+        coordinates: LOCATIONS.solothurn,
       },
       {
         id: 'wed-2',
@@ -165,7 +195,13 @@ export const tripDays: TripDay[] = [
         subtitle: 'Nach Cademario',
         type: 'travel',
         status: 'confirmed',
+        // SECRET: Hide destination until this event starts
+        isSecret: true,
+        secretTitle: 'Überraschungs-Roadtrip!',
+        secretSubtitle: 'Ziel wird enthüllt...',
+        revealAt: new Date('2026-02-04T14:00:00'),
         image: '/images/lugano-lake.jpg',
+        coordinates: LOCATIONS.cademario,
       },
       {
         id: 'wed-3',
@@ -181,6 +217,12 @@ export const tripDays: TripDay[] = [
           price: '494.80 CHF (2 Nächte)',
         },
         image: '/images/wellness-spa.jpg',
+        // SECRET: Hide until Lugano reveal
+        isSecret: true,
+        secretTitle: 'Check-in Hotel',
+        secretSubtitle: 'Überraschung!',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.cademario,
       },
       {
         id: 'wed-4',
@@ -198,6 +240,12 @@ export const tripDays: TripDay[] = [
           notes: 'Noch zu organisieren!',
         },
         image: '/images/hero-crossfit.jpg',
+        // SECRET: Hide until Lugano reveal
+        isSecret: true,
+        secretTitle: 'Geburtstags-Workout',
+        secretSubtitle: 'Irgendwo Spezielles...',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.lugano,
       },
       {
         id: 'wed-5',
@@ -210,6 +258,12 @@ export const tripDays: TripDay[] = [
         details: {
           notes: 'Empfehlungen: Grotto Castagneto, Badalucci, La Cucina di Alice',
         },
+        // SECRET: Hide until Lugano reveal
+        isSecret: true,
+        secretTitle: 'Geburtstagsessen',
+        secretSubtitle: 'An einem besonderen Ort...',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.lugano,
       },
     ],
   },
@@ -230,6 +284,11 @@ export const tripDays: TripDay[] = [
           price: 'Drop-in: CHF 25/Person',
         },
         image: '/images/hero-crossfit.jpg',
+        isSecret: true,
+        secretTitle: 'Workout',
+        secretSubtitle: 'Wird enthüllt...',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.lugano,
       },
       {
         id: 'thu-2',
@@ -238,6 +297,11 @@ export const tripDays: TripDay[] = [
         subtitle: 'Nach deiner Wahl',
         type: 'food',
         status: 'flexible',
+        isSecret: true,
+        secretTitle: 'Mittagessen',
+        secretSubtitle: 'Wird enthüllt...',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.lugano,
       },
       {
         id: 'thu-3',
@@ -249,6 +313,11 @@ export const tripDays: TripDay[] = [
         status: 'confirmed',
         location: 'Kurhaus Cademario',
         image: '/images/wellness-spa.jpg',
+        isSecret: true,
+        secretTitle: 'Wellness',
+        secretSubtitle: 'Etwas Besonderes...',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.cademario,
       },
       {
         id: 'thu-4',
@@ -256,6 +325,11 @@ export const tripDays: TripDay[] = [
         title: 'Abendessen & Chill',
         type: 'food',
         status: 'flexible',
+        isSecret: true,
+        secretTitle: 'Abendessen',
+        secretSubtitle: 'Wird enthüllt...',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.lugano,
       },
     ],
   },
@@ -271,6 +345,11 @@ export const tripDays: TripDay[] = [
         type: 'travel',
         status: 'confirmed',
         image: '/images/modena-italy.jpg',
+        isSecret: true,
+        secretTitle: 'Roadtrip!',
+        secretSubtitle: 'Wohin wohl?',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.modena,
       },
       {
         id: 'fri2-2',
@@ -283,6 +362,11 @@ export const tripDays: TripDay[] = [
         details: {
           notes: 'Empfehlungen: Trattoria Pomposa, Hosteria Giusti, Antica Moka',
         },
+        isSecret: true,
+        secretTitle: 'Mittagessen',
+        secretSubtitle: 'Italienisch...',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.modena,
       },
       {
         id: 'fri2-3',
@@ -292,6 +376,11 @@ export const tripDays: TripDay[] = [
         type: 'competition',
         status: 'confirmed',
         image: '/images/competition-crossfit.jpg',
+        isSecret: true,
+        secretTitle: 'Warm Up',
+        secretSubtitle: 'Für etwas Grosses...',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.modena,
       },
       {
         id: 'fri2-4',
@@ -302,6 +391,11 @@ export const tripDays: TripDay[] = [
         status: 'confirmed',
         location: 'Modena',
         image: '/images/competition-crossfit.jpg',
+        isSecret: true,
+        secretTitle: 'DAS HIGHLIGHT',
+        secretSubtitle: 'Wird enthüllt...',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.modena,
       },
     ],
   },
@@ -318,6 +412,11 @@ export const tripDays: TripDay[] = [
         status: 'confirmed',
         location: 'Modena',
         image: '/images/competition-crossfit.jpg',
+        isSecret: true,
+        secretTitle: 'Tag 2',
+        secretSubtitle: 'Wird enthüllt...',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.modena,
       },
     ],
   },
@@ -333,6 +432,11 @@ export const tripDays: TripDay[] = [
         type: 'competition',
         status: 'confirmed',
         image: '/images/competition-crossfit.jpg',
+        isSecret: true,
+        secretTitle: 'Finale',
+        secretSubtitle: 'Wird enthüllt...',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.modena,
       },
       {
         id: 'sun2-2',
@@ -341,32 +445,99 @@ export const tripDays: TripDay[] = [
         subtitle: 'Mit Partymusik im Auto! 🎉',
         type: 'travel',
         status: 'confirmed',
+        isSecret: true,
+        secretTitle: 'Heimreise',
+        secretSubtitle: 'Party!',
+        revealAt: LUGANO_REVEAL_TIME,
+        coordinates: LOCATIONS.solothurn,
       },
     ],
   },
 ];
 
-// Helper to get current/next event
+// Helper to check if an event's secret should be revealed
+export function isEventRevealed(event: TripEvent): boolean {
+  if (!event.isSecret) return true;
+  const now = new Date();
+  const revealTime = event.revealAt || event.date;
+  return now >= revealTime;
+}
+
+// Helper to get the display version of an event (with secrets hidden if needed)
+export function getDisplayEvent(event: TripEvent): TripEvent {
+  if (!event.isSecret || isEventRevealed(event)) {
+    return event;
+  }
+  
+  // Return secret version
+  return {
+    ...event,
+    title: event.secretTitle || '???',
+    subtitle: event.secretSubtitle || 'Überraschung!',
+    location: undefined,
+    details: undefined,
+    image: undefined,
+    coordinates: undefined,
+  };
+}
+
+// Helper to get current/next event (the one that should be shown)
 export function getCurrentEvent(): TripEvent | null {
   const now = new Date();
-  let nextEvent: TripEvent | null = null;
+  const allEvents = getAllEvents();
   
-  for (const day of tripDays) {
-    for (const event of day.events) {
-      if (event.date > now) {
-        if (!nextEvent || event.date < nextEvent.date) {
-          nextEvent = event;
+  // Find the first event that hasn't ended yet (assuming 2 hour duration)
+  for (const event of allEvents) {
+    const eventEnd = new Date(event.date.getTime() + 2 * 60 * 60 * 1000);
+    if (now < eventEnd) {
+      return event;
+    }
+  }
+  
+  return null;
+}
+
+// Helper to get all events as flat array sorted by date
+export function getAllEvents(): TripEvent[] {
+  return tripDays
+    .flatMap(day => day.events)
+    .sort((a, b) => a.date.getTime() - b.date.getTime());
+}
+
+// Helper to get past events (already happened)
+export function getPastEvents(): TripEvent[] {
+  const now = new Date();
+  return getAllEvents().filter(event => event.date < now);
+}
+
+// Helper to get revealed locations for the map
+export function getRevealedLocations(): Array<{ lat: number; lng: number; name: string; type: string }> {
+  const now = new Date();
+  const revealed: Array<{ lat: number; lng: number; name: string; type: string }> = [];
+  const seenCoords = new Set<string>();
+  
+  for (const event of getAllEvents()) {
+    // Only show locations for events that have started
+    if (event.date <= now && event.coordinates) {
+      const key = `${event.coordinates.lat},${event.coordinates.lng}`;
+      if (!seenCoords.has(key)) {
+        seenCoords.add(key);
+        
+        // Check if this is a secret location that shouldn't be revealed yet
+        if (event.isSecret && !isEventRevealed(event)) {
+          continue;
         }
+        
+        revealed.push({
+          ...event.coordinates,
+          name: event.location || event.title,
+          type: event.type,
+        });
       }
     }
   }
   
-  return nextEvent;
-}
-
-// Helper to get all events as flat array
-export function getAllEvents(): TripEvent[] {
-  return tripDays.flatMap(day => day.events);
+  return revealed;
 }
 
 // Workout suggestion for birthday workout
