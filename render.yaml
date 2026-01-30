@@ -1,0 +1,16 @@
+# render.yaml
+services:
+  - type: web
+    name: geburi-trip-app
+    env: node
+    buildCommand: pnpm install && pnpm run build
+    startCommand: pnpm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+    autoDeploy: true
+    healthCheckPath: /
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY

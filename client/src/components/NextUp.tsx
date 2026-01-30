@@ -51,7 +51,7 @@ export default function NextUp() {
   
   const Icon = typeIcons[nextEvent.type];
   const eventDate = nextEvent.date;
-  const now = new Date();
+  const now = new Date(); // For testing purposes
   const diffMs = eventDate.getTime() - now.getTime();
   const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
   const diffMins = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));

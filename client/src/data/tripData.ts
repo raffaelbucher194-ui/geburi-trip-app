@@ -40,6 +40,15 @@ export interface TripDay {
 
 // Birthday date for countdown
 export const BIRTHDAY_DATE = new Date('2026-02-04T00:00:00');
+export const BIRTHDAY_DATE_27 = new Date('2027-02-04T00:00:00');
+
+// Competition dates for countdown
+export const COMPETITION_START_DATE = new Date('2026-02-06T14:00:00');
+export const COMPETITION_WOD1_DATE = new Date('2026-02-06T17:21:00'); 
+export const COMPETITION_WOD2_DATE = new Date('2026-02-07T12:07:00');
+export const COMPETITION_WOD3_DATE = new Date('2026-02-07T16:05:00');
+export const COMPETITION_WOD4_DATE = new Date('2026-02-08T09:34:00');
+export const COMPETITION_FINAL_DATE = new Date('2026-02-08T14:54:00');
 
 // Secret reveal time for Lugano/Tessin (when they arrive)
 export const LUGANO_REVEAL_TIME = new Date('2026-02-04T14:00:00');
@@ -113,7 +122,7 @@ export const tripDays: TripDay[] = [
           address: 'Industriestrasse 14, 4528 Zuchwil',
           phone: '+41 79 882 88 91',
           website: 'https://www.crossfit11.ch/',
-          notes: 'Noch zu organisieren!',
+          
         },
         image: '/images/hero-crossfit.jpg',
         coordinates: LOCATIONS.zuchwil,
@@ -130,7 +139,7 @@ export const tripDays: TripDay[] = [
           address: 'Landhausquai 17, 4500 Solothurn',
           phone: '032 757 49 92',
           website: 'https://aarebar.com/reservation/',
-          notes: 'Reservation nötig!',
+          
         },
         coordinates: LOCATIONS.solothurn,
       },
@@ -205,7 +214,7 @@ export const tripDays: TripDay[] = [
       },
       {
         id: 'wed-3',
-        date: new Date('2026-02-04T15:00:00'),
+        date: new Date('2026-02-04T17:00:00'),
         title: 'Check-in Kurhaus Cademario',
         subtitle: 'Classic with Lake View',
         type: 'wellness',
@@ -214,7 +223,6 @@ export const tripDays: TripDay[] = [
         details: {
           address: 'Via Kurhaus 12, 6936 Cademario',
           notes: 'Reservierungscode: 10146L101118 | Inkl. DOT SPA (2.200 m²)',
-          price: '494.80 CHF (2 Nächte)',
         },
         image: '/images/wellness-spa.jpg',
         // SECRET: Hide until Lugano reveal
@@ -237,7 +245,7 @@ export const tripDays: TripDay[] = [
           phone: '+41 79 198 84 20',
           website: 'https://www.crossfitlugano.com/',
           price: 'Drop-in: CHF 25/Person',
-          notes: 'Noch zu organisieren!',
+          
         },
         image: '/images/hero-crossfit.jpg',
         // SECRET: Hide until Lugano reveal
@@ -458,7 +466,7 @@ export const tripDays: TripDay[] = [
 // Helper to check if an event's secret should be revealed
 export function isEventRevealed(event: TripEvent): boolean {
   if (!event.isSecret) return true;
-  const now = new Date();
+  const now = new Date(); // For testing purposes
   const revealTime = event.revealAt || event.date;
   return now >= revealTime;
 }
@@ -483,7 +491,7 @@ export function getDisplayEvent(event: TripEvent): TripEvent {
 
 // Helper to get current/next event (the one that should be shown)
 export function getCurrentEvent(): TripEvent | null {
-  const now = new Date();
+  const now = new Date(); // For testing purposes
   const allEvents = getAllEvents();
   
   // Find the first event that hasn't ended yet (assuming 2 hour duration)
@@ -506,13 +514,13 @@ export function getAllEvents(): TripEvent[] {
 
 // Helper to get past events (already happened)
 export function getPastEvents(): TripEvent[] {
-  const now = new Date();
+  const now = new Date(); // For testing purposes
   return getAllEvents().filter(event => event.date < now);
 }
 
 // Helper to get revealed locations for the map
 export function getRevealedLocations(): Array<{ lat: number; lng: number; name: string; type: string }> {
-  const now = new Date();
+  const now = new Date(); // For testing purposes
   const revealed: Array<{ lat: number; lng: number; name: string; type: string }> = [];
   const seenCoords = new Set<string>();
   
@@ -544,12 +552,12 @@ export function getRevealedLocations(): Array<{ lat: number; lng: number; name: 
 export const birthdayWorkout = {
   name: '"Birthday Bash" – Partner WOD',
   description: 'For Time (25 min cap)',
-  buyIn: '26 Synchro Burpees (Alter!)',
+  buyIn: '29 Synchro Burpees (Alter!)',
   rounds: 4,
   movements: [
-    '26 Cal Row (split as needed)',
-    '26 Wall Balls (20/14)',
-    '26 KB Swings (24/16)',
+    '29 Cal Row (split as needed)',
+    '29 Wall Balls (20/14)',
+    '29 KB Swings (24/16)',
   ],
-  buyOut: '26 Synchro Burpees',
+  buyOut: '29 Synchro Burpees',
 };
