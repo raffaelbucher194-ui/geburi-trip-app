@@ -24,4 +24,8 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
   console.log(`📁 Serving from: ${staticPath}`);
+<<<<<<< HEAD
 });
+=======
+});
+>>>>>>> 59596687499c76d3ec9890367effb38ad4ce6bbe
