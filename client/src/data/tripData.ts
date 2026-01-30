@@ -491,7 +491,7 @@ export function getDisplayEvent(event: TripEvent): TripEvent {
 
 // Helper to get current/next event (the one that should be shown)
 export function getCurrentEvent(): TripEvent | null {
-  const now = new Date(); // For testing purposes
+  const now = new Date('2026-02-01T15:00:00'); // For testing purposes
   const allEvents = getAllEvents();
   
   // Find the first event that hasn't ended yet (assuming 2 hour duration)
@@ -550,14 +550,15 @@ export function getRevealedLocations(): Array<{ lat: number; lng: number; name: 
 
 // Workout suggestion for birthday workout
 export const birthdayWorkout = {
-  name: '"Birthday Bash" – Partner WOD',
-  description: 'For Time (25 min cap)',
-  buyIn: '29 Synchro Burpees (Alter!)',
-  rounds: 4,
+  name: "Birthday Bash - 29 Rounds for 29 Years",
+  description: 'For Time',
+  rounds: 29,
+  buyIn: '29, 28, 27, etc Wall Balls',
   movements: [
-    '29 Cal Row (split as needed)',
-    '29 Wall Balls (20/14)',
-    '29 KB Swings (24/16)',
+    '1 Handstand Walk (7.5m)',
+    '9 Sandbag Cleans to share (90kg/70kg)',
+    '9 synchro BB Thruster (53kg/35kg)',
+    '7 Handstand Push-ups to share',
   ],
-  buyOut: '29 Synchro Burpees',
+  buyOut: '1,2,3, etc. Synchro Burpees',
 };
