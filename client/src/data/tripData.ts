@@ -491,7 +491,7 @@ export function getDisplayEvent(event: TripEvent): TripEvent {
 
 // Helper to get current/next event (the one that should be shown)
 export function getCurrentEvent(): TripEvent | null {
-  const now = new Date('2026-02-01T15:00:00'); // For testing purposes
+  const now = new Date(); // For testing purposes
   const allEvents = getAllEvents();
   
   // Find the first event that hasn't ended yet (assuming 2 hour duration)
