@@ -24,8 +24,10 @@ import {
   AlertCircle,
   CheckCircle2
 } from 'lucide-react';
-import { getCurrentEvent, getDisplayEvent, isEventRevealed, type TripEvent } from '@/data/tripData';
+import {getCurrentEvent, type TripEvent } from '@/data/tripEngine';
+import {getDisplayEvent, isEventRevealed, getPastEvents, type TripEvent } from '@/data/tripData';
 import confetti from 'canvas-confetti';
+
 
 const typeIcons = {
   food: Utensils,

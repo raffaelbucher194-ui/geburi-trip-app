@@ -4,6 +4,8 @@
  */
 
 import { motion } from 'framer-motion';
+import { getEventDuration } from "@/data/tripEngine";
+
 import { 
   Utensils, 
   Dumbbell, 

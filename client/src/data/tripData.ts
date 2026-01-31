@@ -6,6 +6,18 @@
  * Lugano/Tessin destination is hidden until arrival (Wed 04.02. 14:00)
  */
 
+
+// 🧪 DEBUG MODE (set to null for real time)
+//export const DEBUG_TIME: string | null = null;
+export const DEBUG_TIME: string = "2026-02-04T14:00:00";
+// example: "2026-02-01T13S:05:00"
+
+export function getNow(): Date {
+  return DEBUG_TIME ? new Date(DEBUG_TIME) : new Date();
+}
+
+
+
 export interface TripEvent {
   id: string;
   date: Date;
@@ -96,6 +108,15 @@ export const tripDays: TripDay[] = [
     events: [
       {
         id: 'sat-1',
+        date: new Date('2026-01-31T16:45:00'),
+        title: 'Abfahrt zum Essen',
+        subtitle: 'Mit Familie',
+        type: 'travel',
+        status: 'confirmed',
+        coordinates: LOCATIONS.solothurn,
+      },
+      {
+        id: 'sat-2',
         date: new Date('2026-01-31T18:15:00'),
         title: 'Essen im Nooch Bern',
         subtitle: 'Mit Familie',
@@ -463,47 +484,7 @@ export const tripDays: TripDay[] = [
   },
 ];
 
-// Helper to check if an event's secret should be revealed
-export function isEventRevealed(event: TripEvent): boolean {
-  if (!event.isSecret) return true;
-  const now = new Date(); // For testing purposes
-  const revealTime = event.revealAt || event.date;
-  return now >= revealTime;
-}
-
-// Helper to get the display version of an event (with secrets hidden if needed)
-export function getDisplayEvent(event: TripEvent): TripEvent {
-  if (!event.isSecret || isEventRevealed(event)) {
-    return event;
-  }
-  
-  // Return secret version
-  return {
-    ...event,
-    title: event.secretTitle || '???',
-    subtitle: event.secretSubtitle || 'Überraschung!',
-    location: undefined,
-    details: undefined,
-    image: undefined,
-    coordinates: undefined,
-  };
-}
-
-// Helper to get current/next event (the one that should be shown)
-export function getCurrentEvent(): TripEvent | null {
-  const now = new Date(); // For testing purposes
-  const allEvents = getAllEvents();
-  
-  // Find the first event that hasn't ended yet (assuming 2 hour duration)
-  for (const event of allEvents) {
-    const eventEnd = new Date(event.date.getTime() + 2 * 60 * 60 * 1000);
-    if (now < eventEnd) {
-      return event;
-    }
-  }
-  
-  return null;
-}
+// ... keep all the previous definitions (DEBUG_TIME, TripEvent, TripDay, tripDays, etc.)
 
 // Helper to get all events as flat array sorted by date
 export function getAllEvents(): TripEvent[] {
@@ -512,39 +493,58 @@ export function getAllEvents(): TripEvent[] {
     .sort((a, b) => a.date.getTime() - b.date.getTime());
 }
 
-// Helper to get past events (already happened)
+// Helper to check if an event's secret should be revealed
+export function isEventRevealed(event: TripEvent): boolean {
+  if (!event.isSecret) return true;
+  const now = getNow();
+  const revealTime = event.revealAt || event.date;
+  return now >= revealTime;
+}
+
+// Helper to get display version of event
+export function getDisplayEvent(event: TripEvent): TripEvent {
+  if (isEventRevealed(event)) return event;
+
+  return {
+    ...event,
+    title: event.secretTitle || "???",
+    subtitle: event.secretSubtitle || "Überraschung!",
+    location: undefined,
+    details: undefined,
+    image: undefined,
+    coordinates: undefined,
+  };
+}
+
+// Returns all events that are in the past
 export function getPastEvents(): TripEvent[] {
-  const now = new Date(); // For testing purposes
+  const now = getNow();
   return getAllEvents().filter(event => event.date < now);
 }
 
-// Helper to get revealed locations for the map
+
+// Map reveal logic
 export function getRevealedLocations(): Array<{ lat: number; lng: number; name: string; type: string }> {
-  const now = new Date(); // For testing purposes
-  const revealed: Array<{ lat: number; lng: number; name: string; type: string }> = [];
-  const seenCoords = new Set<string>();
-  
+  const now = getNow();
+  const revealed = [];
+  const seen = new Set<string>();
+
   for (const event of getAllEvents()) {
-    // Only show locations for events that have started
-    if (event.date <= now && event.coordinates) {
-      const key = `${event.coordinates.lat},${event.coordinates.lng}`;
-      if (!seenCoords.has(key)) {
-        seenCoords.add(key);
-        
-        // Check if this is a secret location that shouldn't be revealed yet
-        if (event.isSecret && !isEventRevealed(event)) {
-          continue;
-        }
-        
-        revealed.push({
-          ...event.coordinates,
-          name: event.location || event.title,
-          type: event.type,
-        });
-      }
-    }
+    if (!event.coordinates) continue;
+    if (event.date > now) continue;
+    if (event.isSecret && !isEventRevealed(event)) continue;
+
+    const key = `${event.coordinates.lat},${event.coordinates.lng}`;
+    if (seen.has(key)) continue;
+    seen.add(key);
+
+    revealed.push({
+      ...event.coordinates,
+      name: event.location || event.title,
+      type: event.type,
+    });
   }
-  
+
   return revealed;
 }
 
@@ -556,9 +556,10 @@ export const birthdayWorkout = {
   buyIn: '29, 28, 27, etc Wall Balls',
   movements: [
     '1 Handstand Walk (7.5m)',
-    '9 Sandbag Cleans to share (90kg/70kg)',
+    '9 strict Handstand Push-ups to share',
     '9 synchro BB Thruster (53kg/35kg)',
-    '7 Handstand Push-ups to share',
+    '7 Sandbag Cleans to share (90kg/70kg)',
   ],
   buyOut: '1,2,3, etc. Synchro Burpees',
 };
+
