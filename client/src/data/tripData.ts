@@ -8,8 +8,8 @@
 
 
 // 🧪 DEBUG MODE (set to null for real time)
-//export const DEBUG_TIME: string | null = null;
-export const DEBUG_TIME: string = "2026-02-04T14:00:00";
+export const DEBUG_TIME: string | null = null;
+//export const DEBUG_TIME: string = "2026-02-01T14:00:00";
 // example: "2026-02-01T13S:05:00"
 
 export function getNow(): Date {
