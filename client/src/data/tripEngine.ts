@@ -3,12 +3,13 @@ import { TripEvent, getAllEvents, getNow } from "./tripData";
 // ⏱️ Event durations in minutes
 const EVENT_DURATIONS: Record<TripEvent["type"], number> = {
   travel: 30,
-  workout: 90,
+  workout: 30,
   food: 90,
   wellness: 120,
-  competition: 180,
-  free: 60,
+  competition: 60,
+  free: 90,
   work: 480,
+  geburi: 12*60, // 13 hours for birthday event
 };
 
 export function getEventDuration(event: TripEvent): number {

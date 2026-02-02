@@ -24,8 +24,8 @@ import {
   AlertCircle,
   CheckCircle2
 } from 'lucide-react';
-import {getCurrentEvent, type TripEvent } from '@/data/tripEngine';
-import {getDisplayEvent, isEventRevealed, getPastEvents, type TripEvent } from '@/data/tripData';
+import {getCurrentEvent} from '@/data/tripEngine';
+import {getDisplayEvent, isEventRevealed} from '@/data/tripData';
 import confetti from 'canvas-confetti';
 
 
@@ -49,11 +49,6 @@ const typeColors = {
   work: 'text-gray-400',
 };
 
-const statusConfig = {
-  confirmed: { icon: CheckCircle2, color: 'text-emerald-500', label: 'Bestätigt' },
-  pending: { icon: AlertCircle, color: 'text-amber-500', label: 'Noch offen' },
-  flexible: { icon: Clock, color: 'text-blue-400', label: 'Flexibel' },
-};
 
 interface TimeUntil {
   days: number;
@@ -161,8 +156,6 @@ export default function CurrentEvent() {
   
   const Icon = typeIcons[currentEvent.type];
   const iconColor = typeColors[currentEvent.type];
-  const status = statusConfig[currentEvent.status];
-  const StatusIcon = status.icon;
   const isRevealed = isEventRevealed(currentEvent);
   
   const formattedDate = currentEvent.date.toLocaleDateString('de-CH', {
@@ -285,13 +278,7 @@ export default function CurrentEvent() {
                     <span>{displayEvent.location}</span>
                   </div>
                 )}
-                
-                <div className={`flex items-center gap-1 ${status.color}`}>
-                  <StatusIcon className="w-4 h-4" />
-                  <span>{status.label}</span>
-                </div>
               </div>
-              
               {/* Time until */}
               <motion.div 
                 className={`inline-block px-6 py-3 rounded-sm ${

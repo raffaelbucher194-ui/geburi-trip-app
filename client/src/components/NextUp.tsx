@@ -4,7 +4,7 @@
  */
 
 import { motion } from 'framer-motion';
-import { getCurrentEvent } from '@/data/tripData';
+import { getNextEvent } from '@/data/tripEngine';
 import { 
   Utensils, 
   Dumbbell, 
@@ -17,6 +17,7 @@ import {
   ChevronRight,
   Clock
 } from 'lucide-react';
+import { getDisplayEvent, isEventRevealed } from '@/data/tripData';
 
 const typeIcons = {
   food: Utensils,
@@ -29,7 +30,9 @@ const typeIcons = {
 };
 
 export default function NextUp() {
-  const nextEvent = getCurrentEvent();
+  const rawEvent = getNextEvent();
+  const nextEvent = rawEvent ? getDisplayEvent(rawEvent) : null;
+  const revealed = rawEvent ? isEventRevealed(rawEvent) : true;
   
   if (!nextEvent) {
     return (
@@ -48,7 +51,6 @@ export default function NextUp() {
       </motion.div>
     );
   }
-  
   const Icon = typeIcons[nextEvent.type];
   const eventDate = nextEvent.date;
   const now = new Date(); // For testing purposes
@@ -95,12 +97,19 @@ export default function NextUp() {
       
       <div className="relative chalk-board rounded-sm p-5 sm:p-8 glow-red">
         {/* Header */}
+        {rawEvent?.isSecret && !revealed && (
+          <span className="ml-2 text-xs bg-amber-500/20 text-amber-400 px-2 py-1 rounded-sm">
+            🔒 Geheim
+          </span>
+        )}
+
         <div className="flex items-center gap-2 mb-4">
           <ChevronRight className="w-5 h-5 text-[#FF3B30] animate-pulse" />
           <span className="text-sm uppercase tracking-[0.3em] text-[#FF3B30] font-medium">
             Next Up
           </span>
         </div>
+        
         
         {/* Main content */}
         <div className="flex items-start gap-4 sm:gap-6">
@@ -128,10 +137,10 @@ export default function NextUp() {
                 <span>{formattedDate}, {formattedTime}</span>
               </div>
               
-              {nextEvent.location && (
+              {revealed && rawEvent?.location && (
                 <div className="flex items-center gap-1.5 text-muted-foreground">
                   <MapPin className="w-4 h-4" />
-                  <span>{nextEvent.location}</span>
+                  <span>{rawEvent.location}</span>
                 </div>
               )}
             </div>

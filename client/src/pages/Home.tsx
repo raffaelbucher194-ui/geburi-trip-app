@@ -10,9 +10,12 @@ import { motion } from 'framer-motion';
 import Countdown from '@/components/Countdown';
 import CurrentEvent from '@/components/CurrentEvent';
 import PastEvents from '@/components/PastEvents';
+import NextUp from '@/components/NextUp';
 import TripMap from '@/components/TripMap';
 import { Dumbbell, Map, History, Sparkles } from 'lucide-react';
 import { BIRTHDAY_DATE, getPastEvents } from '@/data/tripData';
+import { getEventProgress, getCurrentEvent } from '@/data/tripEngine';
+
 
 type ViewMode = 'current' | 'map' | 'history';
 
@@ -20,6 +23,13 @@ export default function Home() {
   const [viewMode, setViewMode] = useState<ViewMode>('current');
   const [isBirthday, setIsBirthday] = useState(false);
   const [hasPastEvents, setHasPastEvents] = useState(false);
+  const event = getCurrentEvent();
+  let showCurrent = false;
+
+  if (event) {
+    const progress = getEventProgress(event);
+    showCurrent = progress > 0 && progress < 1;
+  }
   
   useEffect(() => {
     const checkState = () => {
@@ -138,7 +148,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               key="current"
             >
-              <CurrentEvent />
+              {showCurrent ? <CurrentEvent /> : <NextUp />}
               
               {/* Hint text */}
               <motion.p

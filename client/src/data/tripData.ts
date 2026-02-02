@@ -9,7 +9,7 @@
 
 // 🧪 DEBUG MODE (set to null for real time)
 export const DEBUG_TIME: string | null = null;
-//export const DEBUG_TIME: string = "2026-02-01T14:00:00";
+//export const DEBUG_TIME: string = "2026-02-04T18:30:00";
 // example: "2026-02-01T13S:05:00"
 
 export function getNow(): Date {
@@ -25,8 +25,7 @@ export interface TripEvent {
   subtitle?: string;
   description?: string;
   location?: string;
-  type: 'food' | 'workout' | 'travel' | 'wellness' | 'competition' | 'free' | 'work';
-  status: 'confirmed' | 'pending' | 'flexible';
+  type: 'food' | 'workout' | 'travel' | 'wellness' | 'competition' | 'free' | 'work' | 'geburi';
   details?: {
     address?: string;
     phone?: string;
@@ -63,7 +62,7 @@ export const COMPETITION_WOD4_DATE = new Date('2026-02-08T09:34:00');
 export const COMPETITION_FINAL_DATE = new Date('2026-02-08T14:54:00');
 
 // Secret reveal time for Lugano/Tessin (when they arrive)
-export const LUGANO_REVEAL_TIME = new Date('2026-02-04T14:00:00');
+export const LUGANO_REVEAL_TIME = new Date('2026-02-04T17:00:00');
 
 // Map coordinates
 export const LOCATIONS = {
@@ -87,7 +86,6 @@ export const tripDays: TripDay[] = [
         title: 'Abfahrt zum Essen',
         subtitle: 'Mit Bellabarbas',
         type: 'travel',
-        status: 'confirmed',
         coordinates: LOCATIONS.solothurn,
       },
       {
@@ -96,7 +94,6 @@ export const tripDays: TripDay[] = [
         title: 'Essen im Nooch Bern',
         subtitle: 'Asiatische Küche',
         type: 'food',
-        status: 'confirmed',
         location: 'Nooch Bern',
         coordinates: LOCATIONS.bern,
       },
@@ -112,7 +109,6 @@ export const tripDays: TripDay[] = [
         title: 'Abfahrt zum Essen',
         subtitle: 'Mit Familie',
         type: 'travel',
-        status: 'confirmed',
         coordinates: LOCATIONS.solothurn,
       },
       {
@@ -121,7 +117,6 @@ export const tripDays: TripDay[] = [
         title: 'Essen im Nooch Bern',
         subtitle: 'Mit Familie',
         type: 'food',
-        status: 'confirmed',
         location: 'Nooch Bern',
         coordinates: LOCATIONS.bern,
       },
@@ -137,7 +132,6 @@ export const tripDays: TripDay[] = [
         title: 'Geburtstagsworkout',
         subtitle: 'Team/Partner WOD mit Freunden',
         type: 'workout',
-        status: 'pending',
         location: 'CrossFit Öufi',
         details: {
           address: 'Industriestrasse 14, 4528 Zuchwil',
@@ -154,7 +148,6 @@ export const tripDays: TripDay[] = [
         title: 'Essen in der Aarebar',
         subtitle: 'ev. mit Malik und Jael',
         type: 'food',
-        status: 'pending',
         location: 'Aarebar Solothurn',
         details: {
           address: 'Landhausquai 17, 4500 Solothurn',
@@ -175,7 +168,6 @@ export const tripDays: TripDay[] = [
         date: new Date('2026-02-02T08:00:00'),
         title: 'Normaler Arbeitstag',
         type: 'work',
-        status: 'confirmed',
         coordinates: LOCATIONS.solothurn,
       },
     ],
@@ -189,7 +181,6 @@ export const tripDays: TripDay[] = [
         date: new Date('2026-02-03T08:00:00'),
         title: 'Arbeit bis ca. 16:00',
         type: 'work',
-        status: 'confirmed',
         coordinates: LOCATIONS.solothurn,
       },
       {
@@ -198,7 +189,6 @@ export const tripDays: TripDay[] = [
         title: 'Packen & Ready machen',
         subtitle: 'Für den Geburtstag!',
         type: 'free',
-        status: 'confirmed',
         coordinates: LOCATIONS.solothurn,
       },
     ],
@@ -210,12 +200,11 @@ export const tripDays: TripDay[] = [
     events: [
       {
         id: 'wed-1',
-        date: new Date('2026-02-04T08:00:00'),
+        date: new Date('2026-02-04T01:00:00'),
         title: 'GEBURTSTAG!',
         subtitle: 'Morgenprogramm nach dir',
         description: 'Was auch immer du willst!',
-        type: 'free',
-        status: 'flexible',
+        type: 'geburi',
         coordinates: LOCATIONS.solothurn,
       },
       {
@@ -224,7 +213,6 @@ export const tripDays: TripDay[] = [
         title: 'Abfahrt ins Tessin',
         subtitle: 'Nach Cademario',
         type: 'travel',
-        status: 'confirmed',
         // SECRET: Hide destination until this event starts
         isSecret: true,
         secretTitle: 'Überraschungs-Roadtrip!',
@@ -239,7 +227,6 @@ export const tripDays: TripDay[] = [
         title: 'Check-in Kurhaus Cademario',
         subtitle: 'Classic with Lake View',
         type: 'wellness',
-        status: 'confirmed',
         location: 'Kurhaus Cademario',
         details: {
           address: 'Via Kurhaus 12, 6936 Cademario',
@@ -259,7 +246,6 @@ export const tripDays: TripDay[] = [
         title: 'Geburtstags-Workout',
         subtitle: 'CrossFit Lugano – zu zweit',
         type: 'workout',
-        status: 'pending',
         location: 'CrossFit Lugano',
         details: {
           address: 'Via Fola 11, 6900 Lugano',
@@ -282,7 +268,6 @@ export const tripDays: TripDay[] = [
         title: 'Geburtstagsessen',
         subtitle: 'Gutes italienisches Restaurant',
         type: 'food',
-        status: 'pending',
         location: 'Lugano',
         details: {
           notes: 'Empfehlungen: Grotto Castagneto, Badalucci, La Cucina di Alice',
@@ -306,7 +291,6 @@ export const tripDays: TripDay[] = [
         title: 'Workout',
         subtitle: 'CrossFit Lugano',
         type: 'workout',
-        status: 'pending',
         location: 'CrossFit Lugano',
         details: {
           address: 'Via Fola 11, 6900 Lugano',
@@ -372,9 +356,8 @@ export const tripDays: TripDay[] = [
         title: 'Abfahrt nach Modena',
         subtitle: 'Ca. 3h Fahrt',
         type: 'travel',
-        status: 'confirmed',
         image: '/images/modena-italy.jpg',
-        isSecret: true,
+        isSecret: false,
         secretTitle: 'Roadtrip!',
         secretSubtitle: 'Wohin wohl?',
         revealAt: LUGANO_REVEAL_TIME,
@@ -386,12 +369,11 @@ export const tripDays: TripDay[] = [
         title: 'Mittagessen',
         subtitle: 'In Modena oder Umgebung',
         type: 'food',
-        status: 'pending',
         location: 'Modena',
         details: {
           notes: 'Empfehlungen: Trattoria Pomposa, Hosteria Giusti, Antica Moka',
         },
-        isSecret: true,
+        isSecret: false,
         secretTitle: 'Mittagessen',
         secretSubtitle: 'Italienisch...',
         revealAt: LUGANO_REVEAL_TIME,
@@ -405,7 +387,7 @@ export const tripDays: TripDay[] = [
         type: 'competition',
         status: 'confirmed',
         image: '/images/competition-crossfit.jpg',
-        isSecret: true,
+        isSecret: false,
         secretTitle: 'Warm Up',
         secretSubtitle: 'Für etwas Grosses...',
         revealAt: LUGANO_REVEAL_TIME,
@@ -420,7 +402,7 @@ export const tripDays: TripDay[] = [
         status: 'confirmed',
         location: 'Modena',
         image: '/images/competition-crossfit.jpg',
-        isSecret: true,
+        isSecret: false,
         secretTitle: 'DAS HIGHLIGHT',
         secretSubtitle: 'Wird enthüllt...',
         revealAt: LUGANO_REVEAL_TIME,
@@ -441,7 +423,7 @@ export const tripDays: TripDay[] = [
         status: 'confirmed',
         location: 'Modena',
         image: '/images/competition-crossfit.jpg',
-        isSecret: true,
+        isSecret: false,
         secretTitle: 'Tag 2',
         secretSubtitle: 'Wird enthüllt...',
         revealAt: LUGANO_REVEAL_TIME,
@@ -461,7 +443,7 @@ export const tripDays: TripDay[] = [
         type: 'competition',
         status: 'confirmed',
         image: '/images/competition-crossfit.jpg',
-        isSecret: true,
+        isSecret: false,
         secretTitle: 'Finale',
         secretSubtitle: 'Wird enthüllt...',
         revealAt: LUGANO_REVEAL_TIME,
@@ -473,7 +455,6 @@ export const tripDays: TripDay[] = [
         title: 'Rückfahrt',
         subtitle: 'Mit Partymusik im Auto! 🎉',
         type: 'travel',
-        status: 'confirmed',
         isSecret: true,
         secretTitle: 'Heimreise',
         secretSubtitle: 'Party!',
