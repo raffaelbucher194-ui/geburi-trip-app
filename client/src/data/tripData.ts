@@ -185,7 +185,7 @@ export const tripDays: TripDay[] = [
       },
       {
         id: 'tue-2',
-        date: new Date('2026-02-03T16:00:00'),
+        date: new Date('2026-02-03T20:00:00'),
         title: 'Packen & Ready machen',
         subtitle: 'Für den Geburtstag!',
         type: 'free',
@@ -258,7 +258,7 @@ export const tripDays: TripDay[] = [
         // SECRET: Hide until Lugano reveal
         isSecret: true,
         secretTitle: 'Geburtstags-Workout',
-        secretSubtitle: 'Irgendwo Spezielles...',
+        secretSubtitle: '18:00 Klasse in Lugano',
         revealAt: LUGANO_REVEAL_TIME,
         coordinates: LOCATIONS.lugano,
       },
@@ -275,8 +275,8 @@ export const tripDays: TripDay[] = [
         // SECRET: Hide until Lugano reveal
         isSecret: true,
         secretTitle: 'Geburtstagsessen',
-        secretSubtitle: 'An einem besonderen Ort...',
-        revealAt: LUGANO_REVEAL_TIME,
+        secretSubtitle: 'An einem besonderen Ort, wird enthüllt...',
+        revealAt: new Date('2026-02-04T19:30:00'),
         coordinates: LOCATIONS.lugano,
       },
     ],
@@ -375,7 +375,7 @@ export const tripDays: TripDay[] = [
         },
         isSecret: false,
         secretTitle: 'Mittagessen',
-        secretSubtitle: 'Italienisch...',
+        secretSubtitle: 'Italienisch... Empfehlungen: Trattoria Pomposa, Hosteria Giusti, Antica Moka',
         revealAt: LUGANO_REVEAL_TIME,
         coordinates: LOCATIONS.modena,
       },

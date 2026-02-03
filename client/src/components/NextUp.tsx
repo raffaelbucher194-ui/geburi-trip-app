@@ -1,4 +1,4 @@
-in/**
+/**
  * DESIGN: Industrial Athlete - Next Up Component
  * Shows the current/next event prominently
  */
@@ -12,7 +12,7 @@ import {
   Sparkles, 
   Trophy, 
   Coffee,
-  Briefocase,
+  Briefcase,
   MapPin,
   ChevronRight,
   Clock
@@ -34,7 +34,7 @@ export default function NextUp() {
   const nextEvent = rawEvent ? getDisplayEvent(rawEvent) : null;
   const revealed = rawEvent ? isEventRevealed(rawEvent) : true;
   
-  if (!nextEvent) {
+  if (!rawEvent || !nextEvent) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
