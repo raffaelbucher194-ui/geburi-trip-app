@@ -1,4 +1,4 @@
-/**
+in/**
  * DESIGN: Industrial Athlete - Next Up Component
  * Shows the current/next event prominently
  */
@@ -12,7 +12,7 @@ import {
   Sparkles, 
   Trophy, 
   Coffee,
-  Briefcase,
+  Briefocase,
   MapPin,
   ChevronRight,
   Clock
@@ -51,7 +51,7 @@ export default function NextUp() {
       </motion.div>
     );
   }
-  const Icon = typeIcons[nextEvent.type];
+  const Icon = typeIcons[nextEvent.type] || Coffee ;
   const eventDate = nextEvent.date;
   const now = new Date(); // For testing purposes
   const diffMs = eventDate.getTime() - now.getTime();
