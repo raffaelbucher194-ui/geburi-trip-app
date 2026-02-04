@@ -78,7 +78,7 @@ export default function PastEvents() {
       {/* Events list */}
       <div className="space-y-2">
         {displayedEvents.map((event, index) => {
-          const Icon = typeIcons[event.type];
+          const Icon = typeIcons[event.type] || Coffee;
           const time = event.date.toLocaleTimeString('de-CH', {
             hour: '2-digit',
             minute: '2-digit',
