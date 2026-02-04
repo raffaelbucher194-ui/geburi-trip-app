@@ -154,8 +154,8 @@ export default function CurrentEvent() {
     );
   }
   
-  const Icon = typeIcons[currentEvent.type];
-  const iconColor = typeColors[currentEvent.type];
+  const Icon = typeIcons[currentEvent.type] || Coffee;
+  const iconColor = typeColors[currentEvent.type] || 'text-purple-400';
   const isRevealed = isEventRevealed(currentEvent);
   
   const formattedDate = currentEvent.date.toLocaleDateString('de-CH', {
